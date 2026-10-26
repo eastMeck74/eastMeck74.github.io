@@ -9,7 +9,6 @@ JAVASCRIPT_FILE = FEP_DIR / "photos.js"
 DISPLAY_NAMES = {
     "Katheryn Kerr.webp": "Kathryn Kerr",
     "Michele Gross Newkirk.webp": "Michele Gross",
-    "PUJ7y1-R_400x400.webp": "East Meck Eagle",
     "Rodney Kohlmeyor.webp": "Rodney Kohlmeyer",
 }
 DESATURATED_PHOTOS = {
@@ -18,11 +17,16 @@ DESATURATED_PHOTOS = {
     "Nancy Henley.webp",
     "Nick Melibruda.webp",
 }
+EXCLUDED_PHOTOS = {"PUJ7y1-R_400x400.webp"}
 
 
 photos = []
 for image_path in sorted(FEP_DIR.iterdir(), key=lambda path: path.name.casefold()):
-    if image_path.is_file() and image_path.suffix.lower() == ".webp":
+    if (
+        image_path.is_file()
+        and image_path.suffix.lower() == ".webp"
+        and image_path.name not in EXCLUDED_PHOTOS
+    ):
         photo = {
             "file": image_path.name,
             "name": DISPLAY_NAMES.get(image_path.name, image_path.stem),
